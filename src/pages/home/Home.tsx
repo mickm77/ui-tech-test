@@ -7,6 +7,7 @@ const Home = () => {
     queryKey: ["people"],
     queryFn: fetchPeople,
   });
+
   return <Table data={data} isLoading={isLoading} isFetching={isFetching} />;
 };
 
