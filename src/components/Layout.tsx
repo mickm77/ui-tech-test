@@ -1,11 +1,17 @@
-import Header from "../pages/header/Header";
-import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "../pages/home";
+import Header from "./header";
+import css from "./Layout.module.css";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = () => {
   return (
-    <div>
+    <div className={css.layout}>
       <Header />
-      {children}
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 };
