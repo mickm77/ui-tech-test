@@ -1,14 +1,29 @@
-import "./header.module.css";
+import { NavLink } from "react-router-dom";
+import css from "./header.module.css";
 
 const Header = () => {
   return (
     <header>
-      <h1>People</h1>
+      <h1>
+        <span className={css.first}>P</span>eople
+      </h1>
       <nav>
-        <ul>
-          <li>Home</li>
-          <li>People</li>
-        </ul>
+        <NavLink
+          to="/"
+          className={({ isActive }: { isActive: boolean }) =>
+            isActive ? "active" : ""
+          }
+        >
+          Home
+        </NavLink>
+        <NavLink
+          to="/shifts"
+          className={({ isActive }: { isActive: boolean }) =>
+            isActive ? "active" : ""
+          }
+        >
+          Shifts
+        </NavLink>
       </nav>
     </header>
   );

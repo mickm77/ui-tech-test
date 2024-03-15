@@ -1,71 +1,75 @@
-import { useState } from "react";
-import { DefaultTableDef, tableDef } from "../../resources/tableDef";
-import { Person } from "../../types/People";
+import { useEffect, useState } from "react";
+import { DefaultTableDef } from "../../resources/tableDef";
 import TableHead from "./TableHead";
 import useLocalPagination from "../../helpers/useLocalPagination";
 import TableFooter from "./TableFooter";
+import TableLine from "./TableLine";
+import useLocalSort from "../../helpers/useLocalSort";
+import useFilter from "../../helpers/useFilter";
+import css from "./table.module.css";
 
 interface TableProps {
-  data: Person[] | undefined;
+  data: any[] | undefined;
   isLoading: boolean;
   isFetching: boolean;
+  columns: DefaultTableDef[];
 }
 
-const Table = ({ data = [], isLoading, isFetching }: TableProps) => {
-  const [sortedOn, setSortedOn] = useState<keyof Person>("name");
+const Table = ({ data = [], isLoading, isFetching, columns }: TableProps) => {
+  const [sortedOn, setSortedOn] = useState("");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [filters, setFilters] = useState<Record<string, string>[]>([]);
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(8);
-  const { pageData, totalPages } = useLocalPagination<Person>(
-    data,
+  const pageSize = 8;
+  const filteredData = useFilter(data, filters);
+  const sortedData = useLocalSort(filteredData, sortOrder, sortedOn);
+  const { pageData, totalPages } = useLocalPagination(
+    sortedData,
     page,
     pageSize
   );
+
+  useEffect(() => {
+    setPage(1);
+  }, [data, filters, setSortedOn]);
 
   const setNewPage = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setPage(newPage);
     }
   };
-  const columns: DefaultTableDef[] = [
-    tableDef.name,
-    tableDef.dateOfBirth,
-    tableDef.startDate,
-    tableDef.active,
-    {
-      type: "string",
-      label: "Actions",
-      field: "actions",
-      sortable: false,
-      filterable: false,
-      cellRenderer: () => {
-        return (
-          <div>
-            <button>Edit</button>
-            <button>Delete</button>
-          </div>
-        );
-      },
-    },
-  ];
 
+  const setSort = (field: string, direction: string) => {
+    setSortedOn(field);
+    setSortOrder(direction as "asc" | "desc");
+  };
+
+  const setFilter = (field: string, value: string) => {
+    setFilters((prev) => {
+      const newFilters = prev.filter((filter) => filter.field !== field);
+      if (value) {
+        newFilters.push({ field, value });
+      }
+      return newFilters;
+    });
+  };
+  console.log(columns, page);
   return (
     <>
-      <table className={`table ${isFetching ? "table-fetch" : ""}`}>
-        <TableHead columns={columns} />
+      <table className={`${css.table} ${isFetching ? css.tableFetch : ""}`}>
+        <TableHead
+          columns={columns}
+          setSort={setSort}
+          setFilter={setFilter}
+          filters={filters}
+          sortedOn={sortedOn}
+          sortOrder={sortOrder}
+        />
         <tbody>
           {isLoading && <tr>Loading...</tr>}
-          {pageData?.map((person) => (
-            <tr key={person.id}>
-              {columns?.map((column) => (
-                <td key={column.field}>
-                  {column.cellRenderer
-                    ? column.cellRenderer(person[column.field as keyof Person])
-                    : person[column.field as keyof Person]}
-                </td>
-              ))}
-            </tr>
+          {pageData?.map((item) => (
+            <TableLine key={item.id} item={item} columns={columns} />
           ))}
-          {}
         </tbody>
       </table>
       <TableFooter page={page} totalPages={totalPages} setPage={setNewPage} />

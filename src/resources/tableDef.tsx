@@ -9,7 +9,7 @@ export type DefaultTableDef = {
   cellRenderer?: (value: any) => JSX.Element | string;
 };
 
-export const tableDef = {
+export const peopleTableDef = {
   name: {
     type: "string",
     label: "Name",
@@ -53,4 +53,4 @@ export const tableDef = {
   },
 };
 
-export type TableDef = typeof tableDef;
+export type PeopleTableDef = typeof peopleTableDef;

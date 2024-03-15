@@ -10,7 +10,7 @@ const useLocalSort = <T>(data: T[], sort: string, field: string | undefined) => 
             }
             return 0;
         });
-        return { sorted, sortedOn: field };
+        return sorted;
     };
 
 export default useLocalSort;

@@ -3,9 +3,6 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: #444;
-  background-color: #cfd0d5;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,5 +10,19 @@
   -moz-osx-font-smoothing: grayscale;
 
   --max-width: 960px;
+
+  --accent-color: #99b4d0;
+  --primary-color: #417ceb;
+
+  --light-gray: #666;
+  --dark-gray: #333;
+  --very-light-gray: #eaeaea;
+  --white: #fff;
+
 }
 
+.active {
+  color: #333;
+  border-bottom: var(--accent-color) 2px solid;
+  padding-bottom: 2px;
+}

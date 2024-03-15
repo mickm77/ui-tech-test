@@ -1,0 +1,105 @@
+
+
+.table {
+    width: 100%;
+}
+
+.tableFetch {
+    border: 1px solid var(--very-light-gray);
+}
+
+.cell {
+    padding: 1rem 0;
+}
+
+
+.columnHeader {
+
+    text-align: left;
+    img {
+        height: 0.75rem;
+        margin-top:2px;
+        margin-left: 4px;
+        cursor: pointer;
+    }
+    padding: 1rem 0;
+    border-bottom: var(--very-light-gray) 1px solid;
+    position: relative;
+
+}
+
+.columnOptions {
+    display: none;
+    justify-content: start;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+
+.columnHeader:hover > .columnOptions {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+
+    background-color: var(--white);
+    border: 1px solid var(--very-light-gray);
+    border-radius: 0.25rem;
+    padding: 1rem;
+    top: 100%;
+    right: 0;
+    z-index: 1;
+    box-shadow: 0 0 0.5rem 0.25rem var(--very-light-gray);
+}
+
+.sorting {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    cursor: pointer;
+}
+
+.filtering {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid var(--very-light-gray);
+    border-radius: 0.25rem;
+}
+
+.filtering > input {
+    border: none;
+}
+
+.filtering > span {
+    padding-left: 0.5rem;
+    color: red;
+}
+
+
+.tableFooter {
+    margin: 0 auto;
+    display: flex;
+    gap: 1rem;
+}
+
+.tableFooter > .pages {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    cursor: pointer;
+
+}
+
+.tableFooter > button {
+    padding: 1rem 1.25rem;
+    border: none;
+    border-radius: 2rem;
+    background-color: var(--accent-color);
+    color: var(--white);
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--primary-color);
+    }
+}

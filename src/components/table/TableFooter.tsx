@@ -1,3 +1,5 @@
+import css from "./table.module.css";
+
 interface TableFooterProps {
   page: number;
   totalPages: number;
@@ -6,11 +8,11 @@ interface TableFooterProps {
 
 const TableFooter = ({ page, totalPages, setPage }: TableFooterProps) => {
   return (
-    <div className="table-footer">
+    <div className={css.tableFooter}>
       <button onClick={() => setPage(page - 1)} disabled={page === 1}>
-        Previous
+        &lt;
       </button>
-      <span>
+      <span className={css.pages}>
         {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
           <span
             key={p}
@@ -22,7 +24,7 @@ const TableFooter = ({ page, totalPages, setPage }: TableFooterProps) => {
         ))}
       </span>
       <button onClick={() => setPage(page + 1)} disabled={page === totalPages}>
-        Next
+        &gt;
       </button>
     </div>
   );

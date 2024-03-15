@@ -1,20 +1,27 @@
-import { Person } from "../../types/People";
+import { DefaultTableDef } from "../../resources/tableDef";
+import css from "./table.module.css";
 
-interface TableLineProps {
-  person: Person;
+interface baseTableLineProps {
+  id: string;
+}
+interface TableLineProps<T> {
+  item: T;
+  columns: DefaultTableDef[];
 }
 
-const TableLine = ({ person }: TableLineProps) => {
+const TableLine = <T extends baseTableLineProps>({
+  item,
+  columns,
+}: TableLineProps<T>) => {
   return (
-    <tr>
-      <td>{person.name}</td>
-      <td>{person.dateOfBirth}</td>
-      <td>{person.startDate}</td>
-      <td>{person.active ? "Yes" : "No"}</td>
-      <td>
-        <button>Edit</button>
-        <button>Delete</button>
-      </td>
+    <tr key={item.id} className={css.row}>
+      {columns?.map((column) => (
+        <td key={column.field} className={css.cell}>
+          {column.cellRenderer
+            ? column.cellRenderer(item[column.field as keyof T])
+            : item[column.field]}
+        </td>
+      ))}
     </tr>
   );
 };
